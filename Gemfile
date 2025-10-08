@@ -80,3 +80,6 @@ eval_gemfile "Gemfile.jumpstart"
 
 # We recommend using strong migrations when your app is in production
 # gem "strong_migrations"
+
+gem "inertia_rails", "~> 3.11"
+gem "vite_rails", "~> 3.0"
