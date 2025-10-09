@@ -1,0 +1,23 @@
+single_choice_answer:
+  response: completed_response
+  question: single_choice_question
+  answer_value: { "choice_id": 2 }
+  calculated_score: 2.0
+
+multiple_choice_answer:
+  response: completed_response
+  question: multiple_choice_question
+  answer_value: { "choice_ids": [1, 2] }
+  calculated_score: 3.0
+
+text_short_answer:
+  response: completed_response
+  question: text_short_question
+  answer_value: { "text": "Acme Corporation" }
+  calculated_score: null
+
+yes_no_answer:
+  response: completed_response
+  question: yes_no_question
+  answer_value: { "value": "yes" }
+  calculated_score: 1.0

@@ -1,0 +1,23 @@
+in_progress_response:
+  questionnaire: draft_questionnaire
+  account: one
+  respondent: one
+  status: 0 # in_progress
+  started_at: <%= 1.hour.ago %>
+  completed_at: null
+
+completed_response:
+  questionnaire: published_questionnaire
+  account: one
+  respondent: one
+  status: 1 # completed
+  started_at: <%= 2.days.ago %>
+  completed_at: <%= 1.day.ago %>
+
+account_two_response:
+  questionnaire: account_two_questionnaire
+  account: two
+  respondent: two
+  status: 1 # completed
+  started_at: <%= 3.days.ago %>
+  completed_at: <%= 2.days.ago %>

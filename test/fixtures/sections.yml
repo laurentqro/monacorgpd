@@ -1,0 +1,23 @@
+section_one:
+  questionnaire: draft_questionnaire
+  title: "General Information"
+  description: "Basic information about your organization"
+  order_index: 0
+
+section_two:
+  questionnaire: draft_questionnaire
+  title: "Data Processing"
+  description: "Details about data processing activities"
+  order_index: 1
+
+section_three:
+  questionnaire: draft_questionnaire
+  title: "Security Measures"
+  description: "Technical and organizational measures"
+  order_index: 2
+
+published_section:
+  questionnaire: published_questionnaire
+  title: "Data Inventory"
+  description: "List all data you process"
+  order_index: 0

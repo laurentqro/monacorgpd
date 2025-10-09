@@ -1,0 +1,17 @@
+lawfulness_score:
+  audit_session: completed_audit
+  compliance_area: lawfulness
+  score: 18.5
+  max_score: 20.0
+
+purpose_limitation_score:
+  audit_session: completed_audit
+  compliance_area: purpose_limitation
+  score: 15.0
+  max_score: 20.0
+
+data_minimisation_score:
+  audit_session: completed_audit
+  compliance_area: data_minimisation
+  score: 16.0
+  max_score: 20.0

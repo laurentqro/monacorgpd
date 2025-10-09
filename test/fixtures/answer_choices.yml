@@ -1,0 +1,35 @@
+choice_one:
+  question: single_choice_question
+  choice_text: "1-10 employees"
+  order_index: 0
+  score: 1.0
+
+choice_two:
+  question: single_choice_question
+  choice_text: "11-50 employees"
+  order_index: 1
+  score: 2.0
+
+choice_three:
+  question: single_choice_question
+  choice_text: "51-250 employees"
+  order_index: 2
+  score: 3.0
+
+multiple_choice_one:
+  question: multiple_choice_question
+  choice_text: "Names and contact details"
+  order_index: 0
+  score: 1.0
+
+multiple_choice_two:
+  question: multiple_choice_question
+  choice_text: "Financial information"
+  order_index: 1
+  score: 2.0
+
+multiple_choice_three:
+  question: multiple_choice_question
+  choice_text: "Health data"
+  order_index: 2
+  score: 3.0

@@ -1,0 +1,29 @@
+lawfulness:
+  name: "Lawfulness, Fairness and Transparency"
+  code: "GDPR-ART-5-1-A"
+  description: "Processing must be lawful, fair and transparent"
+
+purpose_limitation:
+  name: "Purpose Limitation"
+  code: "GDPR-ART-5-1-B"
+  description: "Data must be collected for specified, explicit and legitimate purposes"
+
+data_minimisation:
+  name: "Data Minimisation"
+  code: "GDPR-ART-5-1-C"
+  description: "Data must be adequate, relevant and limited to what is necessary"
+
+accuracy:
+  name: "Accuracy"
+  code: "GDPR-ART-5-1-D"
+  description: "Data must be accurate and kept up to date"
+
+storage_limitation:
+  name: "Storage Limitation"
+  code: "GDPR-ART-5-1-E"
+  description: "Data must be kept only as long as necessary"
+
+integrity_confidentiality:
+  name: "Integrity and Confidentiality"
+  code: "GDPR-ART-5-1-F"
+  description: "Data must be processed securely"

@@ -1,0 +1,44 @@
+draft_questionnaire:
+  account: one
+  creator: one
+  title: "GDPR Compliance Assessment"
+  description: "Comprehensive GDPR compliance questionnaire"
+  category: "gdpr"
+  status: 0 # draft
+  deleted_at: null
+
+published_questionnaire:
+  account: one
+  creator: one
+  title: "Data Mapping Questionnaire"
+  description: "Map your data processing activities"
+  category: "data_mapping"
+  status: 1 # published
+  deleted_at: null
+
+archived_questionnaire:
+  account: one
+  creator: one
+  title: "Old Vendor Assessment"
+  description: "Archived vendor assessment questionnaire"
+  category: "vendor_assessment"
+  status: 2 # archived
+  deleted_at: null
+
+deleted_questionnaire:
+  account: one
+  creator: one
+  title: "Deleted Questionnaire"
+  description: "This questionnaire was soft deleted"
+  category: "gdpr"
+  status: 0 # draft
+  deleted_at: <%= 1.day.ago %>
+
+account_two_questionnaire:
+  account: two
+  creator: two
+  title: "Account Two Questionnaire"
+  description: "For multi-tenancy testing"
+  category: "gdpr"
+  status: 1 # published
+  deleted_at: null

@@ -1,0 +1,20 @@
+show_section_rule:
+  source_question: single_choice_question
+  target_section: section_two
+  condition_type: 0 # equals
+  condition_value: '{"choice_id": 3}'
+  action: 0 # show
+
+hide_section_rule:
+  source_question: yes_no_question
+  target_section: section_three
+  condition_type: 0 # equals
+  condition_value: '{"value": "no"}'
+  action: 1 # hide
+
+skip_to_section_rule:
+  source_question: single_choice_question
+  target_section: section_three
+  condition_type: 0 # equals
+  condition_value: '{"choice_id": 1}'
+  action: 2 # skip_to_section

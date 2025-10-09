@@ -1,0 +1,15 @@
+draft_audit:
+  response: completed_response
+  account: one
+  overall_score: null
+  max_possible_score: null
+  risk_level: null
+  status: 0 # draft
+
+completed_audit:
+  response: completed_response
+  account: one
+  overall_score: 75.5
+  max_possible_score: 100.0
+  risk_level: "low"
+  status: 1 # completed

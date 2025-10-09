@@ -1,0 +1,52 @@
+single_choice_question:
+  section: section_one
+  question_text: "What is your organization's size?"
+  question_type: 0 # single_choice
+  help_text: "Select the number of employees"
+  order_index: 0
+  is_required: true
+  weight: 1.0
+
+multiple_choice_question:
+  section: section_one
+  question_text: "Which types of personal data do you process?"
+  question_type: 1 # multiple_choice
+  help_text: "Select all that apply"
+  order_index: 1
+  is_required: true
+  weight: 1.5
+
+text_short_question:
+  section: section_two
+  question_text: "What is your company name?"
+  question_type: 2 # text_short
+  order_index: 0
+  is_required: true
+  weight: 0.5
+
+text_long_question:
+  section: section_two
+  question_text: "Describe your data processing activities"
+  question_type: 3 # text_long
+  help_text: "Provide as much detail as possible"
+  order_index: 1
+  is_required: false
+  weight: 2.0
+
+yes_no_question:
+  section: section_three
+  question_text: "Do you have a Data Protection Officer?"
+  question_type: 4 # yes_no
+  order_index: 0
+  is_required: true
+  weight: 1.0
+
+rating_scale_question:
+  section: section_three
+  question_text: "Rate your data security posture"
+  question_type: 5 # rating_scale
+  help_text: "1 = Poor, 5 = Excellent"
+  settings: '{"min": 1, "max": 5}'
+  order_index: 1
+  is_required: true
+  weight: 2.0
