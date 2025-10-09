@@ -3,9 +3,9 @@ module Account::GdprQuestionnaires
 
   included do
     # GDPR Questionnaire System associations
-    has_many :questionnaires, dependent: :destroy
-    has_many :responses, dependent: :destroy
-    has_many :audit_sessions, dependent: :destroy
+    has_many :questionnaires, class_name: "Gdpr::Questionnaire", dependent: :destroy
+    has_many :responses, class_name: "Gdpr::Response", dependent: :destroy
+    has_many :audit_sessions, class_name: "Gdpr::AuditSession", dependent: :destroy
   end
 
   # Helper methods for GDPR functionality
