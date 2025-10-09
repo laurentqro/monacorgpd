@@ -18,3 +18,6 @@
 #     terms_of_service: true
 #   )
 #   Jumpstart.grant_system_admin!(user)
+
+# Load GDPR compliance areas (required for questionnaire scoring)
+load Rails.root.join("db", "seeds", "gdpr_compliance_areas.rb")
