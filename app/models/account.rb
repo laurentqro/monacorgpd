@@ -5,4 +5,5 @@ class Account < ApplicationRecord
   include Domains
   include Transfer
   include Types
+  include GdprQuestionnaires  # Our GDPR extension
 end
