@@ -32,10 +32,9 @@ module Gdpr
     def new
       @section = @questionnaire.sections.new
 
-      render inertia: "Gdpr/Sections/Form", props: {
+      render inertia: "Gdpr/Sections/New", props: {
         questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section,
-        isEdit: false
+        section: @section
       }
     end
 
@@ -43,7 +42,7 @@ module Gdpr
       @section = @questionnaire.sections.new(section_params)
 
       if @section.save
-        redirect_to gdpr_questionnaire_sections_path(@questionnaire),
+        redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Section created successfully"
       else
         redirect_to new_gdpr_questionnaire_section_path(@questionnaire),
@@ -52,16 +51,15 @@ module Gdpr
     end
 
     def edit
-      render inertia: "Gdpr/Sections/Form", props: {
+      render inertia: "Gdpr/Sections/Edit", props: {
         questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section,
-        isEdit: true
+        section: @section
       }
     end
 
     def update
       if @section.update(section_params)
-        redirect_to gdpr_questionnaire_sections_path(@questionnaire),
+        redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Section updated successfully"
       else
         redirect_to edit_gdpr_questionnaire_section_path(@questionnaire, @section),
@@ -72,7 +70,7 @@ module Gdpr
     def destroy
       @section.destroy
 
-      redirect_to gdpr_questionnaire_sections_path(@questionnaire),
+      redirect_to gdpr_questionnaire_path(@questionnaire),
                   notice: "Section deleted successfully"
     end
 
