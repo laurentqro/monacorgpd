@@ -25,12 +25,11 @@ module Gdpr
     def new
       @question = @section.questions.new
 
-      render inertia: "Gdpr/Questions/Form", props: {
+      render inertia: "Gdpr/Questions/New", props: {
         questionnaire: @questionnaire.as_json(only: [:id, :title]),
         section: @section.as_json(only: [:id, :title]),
         question: @question,
-        questionTypes: question_types_options,
-        isEdit: false
+        questionTypes: question_types_options
       }
     end
 
@@ -52,12 +51,11 @@ module Gdpr
     end
 
     def edit
-      render inertia: "Gdpr/Questions/Form", props: {
+      render inertia: "Gdpr/Questions/Edit", props: {
         questionnaire: @questionnaire.as_json(only: [:id, :title]),
         section: @section.as_json(only: [:id, :title]),
         question: @question.as_json(include: :answer_choices),
-        questionTypes: question_types_options,
-        isEdit: true
+        questionTypes: question_types_options
       }
     end
 
