@@ -126,7 +126,7 @@ module Gdpr
     end
 
     def question_types_options
-      Question.question_types.map do |key, value|
+      Gdpr::Question.question_types.map do |key, value|
         {
           value: key,
           label: key.to_s.titleize,

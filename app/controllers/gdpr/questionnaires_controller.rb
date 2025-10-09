@@ -16,7 +16,7 @@ module Gdpr
           },
           methods: [:deleted?]
         ),
-        statuses: Questionnaire.statuses.keys
+        statuses: Gdpr::Questionnaire.statuses.keys
       }
     end
 
