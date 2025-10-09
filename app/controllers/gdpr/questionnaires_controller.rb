@@ -42,10 +42,8 @@ module Gdpr
     def new
       @questionnaire = scoped_questionnaires.new
 
-      render inertia: "Gdpr/Questionnaires/Form", props: {
-        questionnaire: @questionnaire,
-        categories: categories_options,
-        isEdit: false
+      render inertia: "Gdpr/Questionnaires/New", props: {
+        categories: categories_options
       }
     end
 
@@ -65,10 +63,9 @@ module Gdpr
     def edit
       authorize @questionnaire
 
-      render inertia: "Gdpr/Questionnaires/Form", props: {
+      render inertia: "Gdpr/Questionnaires/Edit", props: {
         questionnaire: @questionnaire,
-        categories: categories_options,
-        isEdit: true
+        categories: categories_options
       }
     end
 
