@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html class="<%= class_names(dark: current_user&.dark_theme?) %>" lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+
+    <title><%= content_for(:title) || "MonacoRGPD" %></title>
+
+    <%= vite_client_tag %>
+    <%= vite_stylesheet_tag "application" %>
+    <%= vite_javascript_tag "inertia" %>
+    <%= inertia_ssr_head %>
+
+    <% if current_user&.system_theme? %>
+      <script>document.documentElement.classList.toggle("dark", window.matchMedia('(prefers-color-scheme: dark)').matches)</script>
+    <% end %>
+
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  </head>
+
+  <body data-controller="theme <%= "bridge--notification-token" if user_signed_in? %>" data-theme-preference-value="<%= current_user&.theme %>">
+    <header>
+      <%= impersonation_banner %>
+      <%= render "flash" %>
+      <%= render "navbar" %>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <%= render "footer" %>
+  </body>
+</html>

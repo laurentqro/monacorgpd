@@ -1,5 +1,7 @@
 module Gdpr
   class BaseController < ApplicationController
+    layout 'inertia'
+
     before_action :authenticate_user!
     before_action :set_account
 
