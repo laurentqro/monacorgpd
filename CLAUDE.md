@@ -156,3 +156,30 @@ This application includes Inertia.js with Svelte 5 for building modern single-pa
 - **Background jobs** configurable between SolidQueue and Sidekiq
 - **Multi-database** setup with separate databases for cache, jobs, and cable
 - **Inertia pages**: Use Svelte 5 with runes for reactivity; pages auto-loaded from `app/javascript/pages/`
+
+## Rails Conventions & Best Practices
+
+### Database Migrations
+- **One migration per table**: Create separate migration files for each table, not monolithic migrations
+- **No database triggers**: Avoid database-level triggers (e.g., `update_updated_at_column()`)
+- **Use Rails conventions**: Rely on ActiveRecord callbacks and `t.timestamps` instead of custom DB logic
+- **Standard Rails DSL**: Use Rails migration methods rather than raw SQL when possible
+
+### Enums
+- **Use integer-based enums**: Store enums as integers (0, 1, 2...) not PostgreSQL ENUM types
+- **Define in models**: Use ActiveRecord's `enum` method with explicit mappings in models
+- **Benefits**: Database-agnostic, easy to modify, automatic scopes/methods, better performance
+- **Example**:
+  ```ruby
+  # Migration
+  t.integer :status, null: false, default: 0
+
+  # Model
+  enum status: { draft: 0, published: 1, archived: 2 }
+  ```
+- **Reference**: See `docs/enum-mappings.md` for all enum definitions
+
+### Multi-tenancy
+- **Account scoping**: All root tables must have `account_id` foreign key
+- **Composite indexes**: Add `account_id` to frequently queried indexes
+- **Pundit policies**: Scope all queries by `current_account`
