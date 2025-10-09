@@ -20,17 +20,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   </head>
 
-  <body data-controller="theme <%= "bridge--notification-token" if user_signed_in? %>" data-theme-preference-value="<%= current_user&.theme %>">
-    <header>
-      <%= impersonation_banner %>
-      <%= render "flash" %>
-      <%= render "navbar" %>
-    </header>
-
-    <main>
-      <%= yield %>
-    </main>
-
-    <%= render "footer" %>
+  <body data-controller="theme" data-theme-preference-value="<%= current_user&.theme %>">
+    <%= yield %>
   </body>
 </html>
