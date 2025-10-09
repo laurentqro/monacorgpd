@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::LogicRule
+
 show_section_rule:
   source_question: single_choice_question
   target_section: section_two

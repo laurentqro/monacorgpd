@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::Section
+
 section_one:
   questionnaire: draft_questionnaire
   title: "General Information"

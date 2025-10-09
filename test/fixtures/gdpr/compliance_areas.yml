@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::ComplianceArea
+
 lawfulness:
   name: "Lawfulness, Fairness and Transparency"
   code: "GDPR-ART-5-1-A"

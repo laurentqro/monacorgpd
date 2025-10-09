@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::AuditSession
+
 draft_audit:
   response: completed_response
   account: one

@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::Question
+
 single_choice_question:
   section: section_one
   question_text: "What is your organization's size?"

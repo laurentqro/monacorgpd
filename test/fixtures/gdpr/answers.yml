@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::Answer
+
 single_choice_answer:
   response: completed_response
   question: single_choice_question

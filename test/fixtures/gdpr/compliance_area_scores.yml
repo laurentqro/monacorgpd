@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::ComplianceAreaScore
+
 lawfulness_score:
   audit_session: completed_audit
   compliance_area: lawfulness

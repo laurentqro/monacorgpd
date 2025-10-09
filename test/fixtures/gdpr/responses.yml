@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::Response
+
 in_progress_response:
   questionnaire: draft_questionnaire
   account: one

@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::AnswerChoice
+
 choice_one:
   question: single_choice_question
   choice_text: "1-10 employees"

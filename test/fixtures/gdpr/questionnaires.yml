@@ -1,3 +1,6 @@
+_fixture:
+  model_class: Gdpr::Questionnaire
+
 draft_questionnaire:
   account: one
   creator: one
