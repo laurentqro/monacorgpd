@@ -4,7 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Jumpstart Pro Rails is a commercial multi-tenant SaaS starter application built with Rails 8. It provides subscription billing, team management, authentication, and modern Rails patterns for building subscription-based web applications.
+**MonacoRGPD** is a multi-tenant SaaS application for Monaco data protection compliance built on Jumpstart Pro Rails. It helps organizations comply with **Monaco's Law No. 1.565** (December 3, 2024) on the protection of personal data, overseen by the **APDP** (Autorité de Protection des Données Personnelles).
+
+### Monaco Data Protection Context
+
+- **Law 1.565**: Monaco's data protection law (December 3, 2024)
+- **APDP**: Monaco's data protection authority (formerly CCIN)
+- **Convention 108+**: International data protection treaty (Monaco ratified March 6, 2025)
+- **RGPD Alignment**: Monaco's law aligns with EU GDPR principles while being Monaco-specific
+- **Documentation**: Full law text in `docs/loi-1565/` (Chapters I-X), APDP guidance in `docs/apdp/`
+
+### Application Purpose
+
+Provide Monaco-based organizations with:
+- GDPR-aligned compliance questionnaires
+- Data protection impact assessments (DPIA)
+- Treatment activities register (required for 50+ employees)
+- Audit sessions with compliance scoring
+- Support for APDP reporting requirements (72-hour breach notification)
+
+### Jumpstart Pro Foundation
+
+Built on Jumpstart Pro Rails 8, which provides subscription billing, team management, authentication, and modern Rails patterns for SaaS applications.
 
 ## Development Commands
 

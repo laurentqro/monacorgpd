@@ -1,16 +1,17 @@
-# Separation Strategy: GDPR App vs Jumpstart Pro
+# Separation Strategy: Monaco RGPD App vs Jumpstart Pro
 
 ## Philosophy
 
-Our GDPR questionnaire application is built **on top of** Jumpstart Pro, not **mixed with** it. This ensures:
+Our **Monaco RGPD compliance application** (for Monaco Law 1.565) is built **on top of** Jumpstart Pro, not **mixed with** it. This ensures:
 - ✅ Clean Jumpstart Pro upgrades
 - ✅ Clear code ownership
 - ✅ Modular architecture
 - ✅ Easy maintenance
+- ✅ Monaco-specific features separate from core SaaS platform
 
 ## Directory Structure
 
-### Our Code (GDPR Application)
+### Our Code (Monaco RGPD Application)
 
 ```
 app/
@@ -85,14 +86,14 @@ app/
 
 ### 1. Controllers (Namespaced)
 
-**Pattern:** All our controllers under `Gdpr::` namespace
+**Pattern:** All our controllers under `Gdpr::` namespace (RGPD is French for GDPR)
 
 ```ruby
 # app/controllers/gdpr/base_controller.rb
 module Gdpr
   class BaseController < ApplicationController
     # Inherits from Jumpstart's ApplicationController
-    # Adds GDPR-specific logic
+    # Adds Monaco RGPD-specific logic (Law 1.565)
   end
 end
 ```
@@ -131,19 +132,19 @@ end
 
 ### 3. Routes (Separate File)
 
-**Pattern:** All GDPR routes in `config/routes/gdpr.rb`
+**Pattern:** All Monaco RGPD routes in `config/routes/gdpr.rb`
 
 ```ruby
 # config/routes/gdpr.rb
 Rails.application.routes.draw do
-  namespace :gdpr do
+  namespace :gdpr do  # RGPD = French acronym for GDPR
     resources :questionnaires
   end
 end
 
 # config/routes.rb
 Rails.application.routes.draw do
-  draw :gdpr  # Single line to include our routes
+  draw :gdpr  # Single line to include our Monaco RGPD routes
   # ... Jumpstart routes
 end
 ```

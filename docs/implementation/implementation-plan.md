@@ -1,7 +1,13 @@
-# GDPR Questionnaire Application - Implementation Plan
+# Monaco RGPD Questionnaire Application - Implementation Plan
 
 ## Overview
-This document outlines the step-by-step implementation plan for building a multi-tenant GDPR compliance questionnaire application using Ruby on Rails 8, Svelte 5, and Inertia.js.
+This document outlines the step-by-step implementation plan for building a multi-tenant data protection compliance questionnaire application for **Monaco's Law No. 1.565** using Ruby on Rails 8, Svelte 5, and Inertia.js.
+
+### Monaco Context
+- **Law 1.565**: Monaco's data protection law (December 3, 2024)
+- **APDP**: Autorité de Protection des Données Personnelles (Monaco's DPA)
+- **RGPD Alignment**: Monaco law aligns with EU GDPR principles
+- **Compliance Areas**: Based on GDPR principles (Lawfulness, Purpose Limitation, etc.) and key articles (30, 32, 35, 37)
 
 ## Prerequisites
 - Jumpstart Pro Rails installed and configured
@@ -21,8 +27,7 @@ bin/rails generate migration CreateQuestionnaireTables
 ```
 
 **Migration file content:**
-- Copy the entire `schema.sql` file content into the migration
-- Ensure ENUMs are created first
+- Follow Rails conventions
 - Create tables in dependency order
 - Add indexes last
 
@@ -507,22 +512,22 @@ compliance_areas = [
   {
     name: "Records of Processing Activities",
     code: "GDPR-ART-30",
-    description: "Maintain records of all processing activities"
+    description: "Maintain records of all processing activities (Monaco: Required for 50+ employees)"
   },
   {
     name: "Security of Processing",
     code: "GDPR-ART-32",
-    description: "Implement appropriate technical and organizational measures"
+    description: "Implement appropriate technical and organizational measures (Monaco: APDP requirement)"
   },
   {
     name: "Data Protection Impact Assessment",
     code: "GDPR-ART-35",
-    description: "Conduct DPIA for high-risk processing"
+    description: "Conduct DPIA for high-risk processing (Monaco: APDP requirement)"
   },
   {
     name: "Data Protection Officer",
     code: "GDPR-ART-37",
-    description: "Designate a DPO when required"
+    description: "Designate a DPO when required (Monaco: APDP requirement in certain cases)"
   }
 ]
 
@@ -548,8 +553,8 @@ puts "Creating sample GDPR questionnaire..."
 def create_sample_questionnaire(account)
   questionnaire = Questionnaire.create!(
     account: account,
-    title: "GDPR Compliance Assessment",
-    description: "Evaluate your organization's GDPR compliance level",
+    title: "Monaco RGPD Compliance Assessment",
+    description: "Evaluate your organization's compliance with Monaco Law 1.565",
     category: "gdpr",
     status: :published
   )
