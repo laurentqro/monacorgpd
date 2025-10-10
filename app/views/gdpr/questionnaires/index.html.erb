@@ -66,9 +66,11 @@
       </ul>
     </div>
 
-    <div class="mt-4">
-      <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
-    </div>
+    <% if @pagy.count > @pagy.limit %>
+      <div class="mt-4">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
   <% else %>
     <div class="text-center py-12">
       <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
