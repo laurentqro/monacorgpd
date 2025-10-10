@@ -38,13 +38,20 @@ app/
 │       └── account/
 │           └── gdpr_questionnaires.rb  ← Extensions only
 │
+├── views/
+│   └── gdpr/  ← Our ERB views
+│       ├── questionnaires/
+│       ├── sections/
+│       ├── questions/
+│       └── responses/
+│
+├── helpers/
+│   └── gdpr/  ← Our view helpers
+│       └── questionnaires_helper.rb
+│
 ├── javascript/
-│   └── pages/
-│       └── Gdpr/  ← Our Svelte components (to be created)
-│           ├── Questionnaires/
-│           ├── Sections/
-│           ├── Questions/
-│           └── Responses/
+│   └── controllers/  ← Our Stimulus controllers
+│       └── gdpr/  ← (if needed for interactivity)
 │
 config/
 ├── routes.rb  ← Jumpstart routes + "draw :gdpr"
@@ -156,24 +163,36 @@ end
 
 ### 4. Views (Namespaced Directory)
 
-**Pattern:** Svelte components under `Gdpr/` directory (to be created)
+**Pattern:** ERB views under `app/views/gdpr/` directory with Hotwire
 
 ```
-app/javascript/pages/
-├── Gdpr/  ← Our components
-│   ├── Questionnaires/
-│   │   ├── Index.svelte
-│   │   ├── Show.svelte
-│   │   └── Form.svelte
-│   └── Responses/
-│       └── Take.svelte
-└── Dashboard.svelte  ← Jumpstart
+app/views/
+├── gdpr/  ← Our ERB views
+│   ├── questionnaires/
+│   │   ├── index.html.erb
+│   │   ├── show.html.erb
+│   │   ├── new.html.erb
+│   │   ├── edit.html.erb
+│   │   └── _form.html.erb
+│   ├── sections/
+│   │   ├── new.html.erb
+│   │   ├── edit.html.erb
+│   │   └── _form.html.erb
+│   ├── questions/
+│   │   ├── index.html.erb
+│   │   ├── new.html.erb
+│   │   ├── edit.html.erb
+│   │   └── _form.html.erb
+│   └── responses/
+│       └── take.html.erb
+└── accounts/  ← Jumpstart views
 ```
 
 **Benefits:**
 - Clear visual separation
-- No Inertia page name conflicts
-- Easy to find: `pages/Gdpr/`
+- Standard Rails ERB conventions
+- Easy to find: `views/gdpr/`
+- Hotwire-ready (Turbo Frames/Streams)
 
 ## Upgrade Path
 

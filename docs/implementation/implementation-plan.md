@@ -1,7 +1,13 @@
 # Monaco RGPD Questionnaire Application - Implementation Plan
 
+> **⚠️ Note**: This implementation plan originally described a Svelte/Inertia.js architecture. The application has since been converted to use **Rails ERB views with Hotwire (Turbo + Stimulus)**. For current architecture details, see:
+> - [CLAUDE.md](../../CLAUDE.md) - Current tech stack and conventions
+> - [separation-strategy.md](../architecture/separation-strategy.md) - Current directory structure
+>
+> **Current Status**: Phases 1-4 (Database, Models, Seeds, Controllers) are complete using ERB views instead of Svelte components.
+
 ## Overview
-This document outlines the step-by-step implementation plan for building a multi-tenant data protection compliance questionnaire application for **Monaco's Law No. 1.565** using Ruby on Rails 8, Svelte 5, and Inertia.js.
+This document outlines the step-by-step implementation plan for building a multi-tenant data protection compliance questionnaire application for **Monaco's Law No. 1.565** using Ruby on Rails 8 with Hotwire (Turbo + Stimulus).
 
 ### Monaco Context
 - **Law 1.565**: Monaco's data protection law (December 3, 2024)
@@ -12,8 +18,8 @@ This document outlines the step-by-step implementation plan for building a multi
 ## Prerequisites
 - Jumpstart Pro Rails installed and configured
 - PostgreSQL database
-- Node.js and npm/yarn
-- Svelte 5 and Inertia.js configured (already done per CLAUDE.md)
+- Hotwire (Turbo + Stimulus) - included with Rails 8 and Jumpstart Pro
+- Tailwind CSS configured via Vite
 
 ---
 
@@ -1059,7 +1065,9 @@ end
 
 ---
 
-## Phase 6: Svelte Components
+## Phase 6: ERB Views with Hotwire
+
+> **Architecture Change**: This phase originally described Svelte/Inertia components. We now use **Rails ERB views** with **Hotwire** for a simpler, more maintainable approach.
 
 ### Step 6.1: Create Component Structure
 
