@@ -13,7 +13,7 @@
 
   <% if @audit_sessions.any? %>
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
-      <ul role="list" class="divide-y divide-gray-200">
+      <ul role="list" class="list-none divide-y divide-gray-200">
         <% @audit_sessions.each do |audit_session| %>
           <li>
             <%= link_to gdpr_audit_session_path(audit_session), class: "block hover:bg-gray-50" do %>

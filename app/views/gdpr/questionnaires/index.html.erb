@@ -16,7 +16,7 @@
 
   <% if @questionnaires.any? %>
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
-      <ul role="list" class="divide-y divide-gray-200">
+      <ul role="list" class="list-none divide-y divide-gray-200">
         <% @questionnaires.each do |questionnaire| %>
           <li>
             <%= link_to gdpr_questionnaire_path(questionnaire), class: "block hover:bg-gray-50" do %>

@@ -16,7 +16,7 @@
 
   <% if @responses.any? %>
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
-      <ul role="list" class="divide-y divide-gray-200">
+      <ul role="list" class="list-none divide-y divide-gray-200">
         <% @responses.each do |response| %>
           <li>
             <%= link_to gdpr_response_path(response), class: "block hover:bg-gray-50" do %>
