@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__svelte__list-sections",
+      "mcp__svelte__get-documentation",
+      "Bash(bin/rails generate:*)",
+      "Bash(bin/rails:*)",
+      "Bash(cat:*)",
+      "Bash(psql:*)",
+      "WebFetch(domain:medium.com)",
+      "WebSearch",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git mv:*)",
+      "Bash(tree:*)",
+      "Bash(for model in questionnaire section question answer_choice logic_rule response answer audit_session compliance_area compliance_area_score)",
+      "Bash(do)",
+      "Bash(done)",
+      "Bash(for file in questionnaire_test.rb section_test.rb question_test.rb answer_choice_test.rb logic_rule_test.rb response_test.rb answer_test.rb audit_session_test.rb compliance_area_test.rb compliance_area_score_test.rb)",
+      "Bash(if [ -f \"$file\" ])",
+      "Bash(then)",
+      "Bash(fi)",
+      "Bash(find:*)",
+      "Bash(for file in questionnaires.yml sections.yml questions.yml answer_choices.yml logic_rules.yml responses.yml answers.yml audit_sessions.yml compliance_areas.yml compliance_area_scores.yml)",
+      "Bash(echo \"Moved $file\")",
+      "Bash(git rm:*)",
+      "mcp__svelte__svelte-autofixer",
+      "Bash(test:*)",
+      "Bash(git reset:*)",
+      "WebFetch(domain:inertia-rails.dev)",
+      "WebFetch(domain:svelte.dev)",
+      "Bash(bundle install:*)",
+      "Bash(npm install)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
