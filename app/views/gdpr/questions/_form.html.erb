@@ -1,4 +1,7 @@
-<%= form_with model: [:gdpr, questionnaire, section, question], local: true, class: "space-y-6" do |f| %>
+<%= form_with model: [questionnaire, section, question],
+              url: question.persisted? ? gdpr_questionnaire_section_question_path(questionnaire, section, question) : gdpr_questionnaire_section_questions_path(questionnaire, section),
+              local: true,
+              class: "space-y-6" do |f| %>
   <% if question.errors.any? %>
     <div class="rounded-md bg-red-50 p-4">
       <div class="flex">
