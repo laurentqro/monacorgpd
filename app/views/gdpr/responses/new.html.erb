@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <%= form_with model: @response, url: gdpr_questionnaire_responses_path(@questionnaire), local: true, class: "mt-6" do |f| %>
+      <%= form_with model: @response, url: gdpr_questionnaire_responses_path(@questionnaire), scope: :response, local: true, class: "mt-6" do |f| %>
         <div>
           <%= f.label :notes, "Additional Notes (Optional)", class: "block text-sm font-medium text-gray-700" %>
           <%= f.text_area :notes, rows: 3, class: "mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md", placeholder: "Add any context or notes about this assessment..." %>
