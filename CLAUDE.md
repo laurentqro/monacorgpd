@@ -164,6 +164,14 @@ end
 - `@pagy.page` - Current page number
 - `@pagy.pages` - Total number of pages (if needed)
 
+## AI-Assisted Development
+
+This project uses **[claude-on-rails](https://github.com/obie/claude-on-rails)** to provide additional Rails-specific context and best practices to Claude Code.
+
+- **Context file**: `.claude-on-rails/context.md` (automatically referenced by Claude Code)
+- **Purpose**: Provides Rails conventions, patterns, and best practices specific to modern Rails development
+- **Installation**: Added via `gem 'claude-on-rails'` in Gemfile
+
 ## Development Notes
 
 - **Current account** available via `current_account` helper in controllers/views
@@ -199,3 +207,4 @@ end
 - **Account scoping**: All root tables must have `account_id` foreign key
 - **Composite indexes**: Add `account_id` to frequently queried indexes
 - **Pundit policies**: Scope all queries by `current_account`
+/file:.claude-on-rails/context.md
