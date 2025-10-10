@@ -1,5 +1,6 @@
 <%= form_with model: [questionnaire, section, question],
               url: question.persisted? ? gdpr_questionnaire_section_question_path(questionnaire, section, question) : gdpr_questionnaire_section_questions_path(questionnaire, section),
+              scope: :question,
               local: true,
               class: "space-y-6" do |f| %>
   <% if question.errors.any? %>
