@@ -27,8 +27,6 @@
       "mcp__svelte__svelte-autofixer",
       "Bash(test:*)",
       "Bash(git reset:*)",
-      "WebFetch(domain:inertia-rails.dev)",
-      "WebFetch(domain:svelte.dev)",
       "Bash(bundle install:*)",
       "Bash(npm install)"
     ],
