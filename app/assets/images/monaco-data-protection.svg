@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" fill="none">
+  <!-- Shield background -->
+  <path d="M150 10
+           C180 10 270 30 270 30
+           L270 200
+           C270 260 230 320 150 350
+           C70 320 30 260 30 200
+           L30 30
+           C30 30 120 10 150 10 Z"
+        fill="#C8102E"/>
+
+  <!-- Padlock body -->
+  <rect x="110" y="150" width="80" height="70" rx="8" fill="white"/>
+
+  <!-- Padlock shackle -->
+  <path d="M125 150
+           L125 120
+           C125 100 140 85 150 85
+           C160 85 175 100 175 120
+           L175 150"
+        stroke="white"
+        stroke-width="16"
+        fill="none"
+        stroke-linecap="round"/>
+
+  <!-- Keyhole -->
+  <circle cx="150" cy="175" r="8" fill="#C8102E"/>
+  <rect x="146" y="175" width="8" height="20" rx="2" fill="#C8102E"/>
+
+  <!-- Monaco diamonds pattern at bottom -->
+  <g transform="translate(150, 280)">
+    <!-- Center diamond -->
+    <path d="M0 -15 L12 0 L0 15 L-12 0 Z" fill="white"/>
+
+    <!-- Left diamond -->
+    <path d="M-40 -15 L-28 0 L-40 15 L-52 0 Z" fill="white"/>
+
+    <!-- Right diamond -->
+    <path d="M40 -15 L52 0 L40 15 L28 0 Z" fill="white"/>
+  </g>
+</svg>
