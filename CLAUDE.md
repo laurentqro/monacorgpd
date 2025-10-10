@@ -94,11 +94,11 @@ end
 ## Technology Stack
 
 - **Rails 8** with Hotwire (Turbo + Stimulus) and Hotwire Native
-- **Inertia.js** with **Svelte 5** for building modern SPAs (optional, alongside Hotwire)
-- **Vite** for JavaScript bundling and development (for Inertia pages via vite-plugin-ruby)
+- **Vite** for JavaScript bundling and development (via vite-plugin-ruby)
 - **PostgreSQL** (primary), **SolidQueue** (jobs), **SolidCache** (cache), **SolidCable** (websockets)
 - **Import Maps** for JavaScript (for traditional Rails views, no Node.js dependency)
 - **TailwindCSS v4** via @tailwindcss/vite plugin and tailwindcss-rails gem
+- **Pagy** (~43.0) for pagination (Jumpstart Pro default)
 - **Devise** for authentication with custom extensions
 - **Pundit** for authorization
 - **Minitest** for testing with parallel execution
@@ -124,50 +124,45 @@ Routes are modularized in `config/routes/`:
 - `app/controllers/accounts/` - Account-scoped controllers
 - `app/models/concerns/` - Shared model modules
 - `app/policies/` - Pundit authorization policies
+- `app/helpers/` - View helpers (organized by namespace)
+- `app/views/` - ERB templates (organized by namespace)
 - `lib/jumpstart/` - Core Jumpstart engine and configuration
 - `config/routes/` - Modular route definitions
 - `app/components/` - View components for reusable UI
-- `app/javascript/pages/` - Inertia.js Svelte page components
-- `app/javascript/entrypoints/` - Vite entrypoints (including inertia.js)
+- `app/javascript/controllers/` - Stimulus controllers
+- `app/javascript/entrypoints/` - Vite entrypoints
 
-## Inertia.js + Svelte Integration
+## Pagination with Pagy
 
-This application includes Inertia.js with Svelte 5 for building modern single-page application (SPA) experiences alongside traditional Hotwire views.
+This application uses **Pagy** for pagination (Jumpstart Pro's default pagination gem).
 
-**Official Documentation for LLMs:**
-- Inertia Rails: https://inertia-rails.dev/llms-full.txt
-- Svelte 5: https://svelte.dev/docs/svelte/llms.txt
+**Official Documentation**: https://ddnexus.github.io/pagy/
 
-### Configuration
-- **Inertia Rails gem**: Installed and configured in `config/initializers/inertia_rails.rb`
-- **Vite**: Configured in `vite.config.ts` with Svelte and Tailwind plugins
-- **Entry point**: `app/javascript/entrypoints/inertia.js` handles Inertia setup and page resolution
-- **Svelte config**: `svelte.config.js` with vitePreprocess
-
-### NPM Dependencies
-```json
-{
-  "@inertiajs/svelte": "^2.2.7",
-  "@sveltejs/vite-plugin-svelte": "^6.2.1",
-  "svelte": "^5.39.11",
-  "vite": "^7.1.9",
-  "vite-plugin-ruby": "^5.1.1",
-  "@tailwindcss/vite": "^4.1.14"
-}
+### Controller Usage
+```ruby
+def index
+  scope = Model.where(account: current_account).order(created_at: :desc)
+  @pagy, @records = pagy(scope)
+end
 ```
 
-### Usage
-- **Create Inertia pages**: Add `.svelte` files in `app/javascript/pages/`
-- **Render from controllers**: Use `render inertia: 'ComponentName', props: { data: value }`
-- **Svelte 5 features**: Use runes (`$state`, `$derived`, `$effect`) for reactivity
-- **Example controller**: See `app/controllers/inertia_example_controller.rb`
-- **Example page**: See `app/javascript/pages/InertiaExample.svelte`
+### View Usage
+```erb
+<%# Display pagination only when needed %>
+<% if @pagy.count > @pagy.limit %>
+  <div class="mt-4">
+    <%== pagy_nav(@pagy) %>
+  </div>
+<% end %>
+```
 
-### Key Features
-- Encrypted history enabled
-- Asset versioning via ViteRuby digest
-- Automatic page resolution from `app/javascript/pages/` directory
-- Shared props support for flash messages, errors, etc.
+### Key Methods
+- `pagy(scope, items: 20)` - Returns `[@pagy, @records]` tuple
+- `pagy_nav(@pagy)` - Generates pagination links (HTML safe)
+- `@pagy.count` - Total number of records
+- `@pagy.limit` - Items per page
+- `@pagy.page` - Current page number
+- `@pagy.pages` - Total number of pages (if needed)
 
 ## Development Notes
 
@@ -176,7 +171,7 @@ This application includes Inertia.js with Svelte 5 for building modern single-pa
 - **Billing features** conditionally loaded based on `Jumpstart.config.payments_enabled?`
 - **Background jobs** configurable between SolidQueue and Sidekiq
 - **Multi-database** setup with separate databases for cache, jobs, and cable
-- **Inertia pages**: Use Svelte 5 with runes for reactivity; pages auto-loaded from `app/javascript/pages/`
+- **Pagination**: Use Pagy for all paginated views; see "Pagination with Pagy" section above
 
 ## Rails Conventions & Best Practices
 
