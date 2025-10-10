@@ -43,6 +43,6 @@ Rails.application.routes.draw do
     resources :compliance_areas, only: [:index, :show]
 
     # Dashboard - Overview
-    root to: "dashboard#index", as: :dashboard
+    root to: "questionnaires#index"
   end
 end

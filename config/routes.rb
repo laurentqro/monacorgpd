@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   match "/500", via: :all, to: "errors#internal_server_error"
 
   authenticated :user do
-    root to: "dashboard#show", as: :user_root
+    # root to: "dashboard#show", as: :user_root
     # Alternate route to use if logged in users should still see public root
     # get "/dashboard", to: "dashboard#show", as: :user_root
   end
@@ -47,5 +47,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Public marketing homepage
-  root to: "static#index"
+  root to: "gdpr/questionnaires#index"
 end
