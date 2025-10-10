@@ -7,44 +7,16 @@ module Gdpr
         .active
         .includes(:creator, :sections)
         .order(created_at: :desc)
-
-      render inertia: "Gdpr/Questionnaires/Index", props: {
-        questionnaires: @questionnaires.as_json(
-          include: {
-            creator: { only: [:id, :name, :email] },
-            sections: { only: [:id, :title] }
-          },
-          methods: [:deleted?]
-        ),
-        statuses: Gdpr::Questionnaire.statuses.keys
-      }
+        .page(params[:page])
     end
 
     def show
       authorize @questionnaire
-
-      render inertia: "Gdpr/Questionnaires/Show", props: {
-        questionnaire: @questionnaire.as_json(
-          include: {
-            creator: { only: [:id, :name, :email] },
-            sections: {
-              include: {
-                questions: {
-                  include: :answer_choices
-                }
-              }
-            }
-          }
-        )
-      }
+      @sections = @questionnaire.sections.ordered.includes(questions: :answer_choices)
     end
 
     def new
       @questionnaire = scoped_questionnaires.new
-
-      render inertia: "Gdpr/Questionnaires/New", props: {
-        categories: categories_options
-      }
     end
 
     def create
@@ -55,18 +27,12 @@ module Gdpr
         redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Questionnaire created successfully"
       else
-        redirect_to new_gdpr_questionnaire_path,
-                    inertia: { errors: @questionnaire.errors }
+        render :new, status: :unprocessable_entity
       end
     end
 
     def edit
       authorize @questionnaire
-
-      render inertia: "Gdpr/Questionnaires/Edit", props: {
-        questionnaire: @questionnaire,
-        categories: categories_options
-      }
     end
 
     def update
@@ -76,8 +42,7 @@ module Gdpr
         redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Questionnaire updated successfully"
       else
-        redirect_to edit_gdpr_questionnaire_path(@questionnaire),
-                    inertia: { errors: @questionnaire.errors }
+        render :edit, status: :unprocessable_entity
       end
     end
 

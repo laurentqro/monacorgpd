@@ -1,0 +1,103 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center">
+          <%= link_to gdpr_questionnaires_path, class: "text-gray-400 hover:text-gray-500 mr-4" do %>
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+          <h1 class="text-3xl font-bold text-gray-900"><%= @questionnaire.title %></h1>
+        </div>
+        <% if @questionnaire.description.present? %>
+          <p class="mt-2 text-sm text-gray-700"><%= @questionnaire.description %></p>
+        <% end %>
+      </div>
+      <div class="mt-4 flex space-x-3 sm:mt-0 sm:ml-4">
+        <% unless @questionnaire.published? %>
+          <%= button_to "Publish", publish_gdpr_questionnaire_path(@questionnaire), method: :patch, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+        <% end %>
+        <%= link_to "Edit", edit_gdpr_questionnaire_path(@questionnaire), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+
+    <div class="mt-4 flex items-center text-sm text-gray-500 space-x-4">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= case @questionnaire.status.to_sym; when :draft then 'bg-gray-100 text-gray-800'; when :published then 'bg-green-100 text-green-800'; when :archived then 'bg-red-100 text-red-800'; end %>">
+        <%= @questionnaire.status.titleize %>
+      </span>
+      <% if @questionnaire.category.present? %>
+        <span><%= @questionnaire.category.titleize %></span>
+      <% end %>
+      <span>Created <%= time_ago_in_words(@questionnaire.created_at) %> ago</span>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <div class="bg-white shadow sm:rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="sm:flex sm:items-center sm:justify-between mb-4">
+          <h2 class="text-lg font-medium text-gray-900">Sections</h2>
+          <%= link_to "Add Section", new_gdpr_questionnaire_section_path(@questionnaire), class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+
+        <% if @sections.any? %>
+          <div class="space-y-4">
+            <% @sections.each do |section| %>
+              <div class="border border-gray-200 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <h3 class="text-base font-medium text-gray-900"><%= section.title %></h3>
+                    <% if section.description.present? %>
+                      <p class="mt-1 text-sm text-gray-600"><%= section.description %></p>
+                    <% end %>
+                    <p class="mt-2 text-sm text-gray-500">
+                      <%= pluralize(section.questions.count, 'question') %>
+                    </p>
+                  </div>
+                  <div class="ml-4 flex items-center space-x-2">
+                    <%= link_to "Questions", gdpr_questionnaire_section_questions_path(@questionnaire, section), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" %>
+                    <%= link_to "Edit", edit_gdpr_questionnaire_section_path(@questionnaire, section), class: "text-indigo-600 hover:text-indigo-900 text-sm font-medium" %>
+                    <%= button_to "Delete", gdpr_questionnaire_section_path(@questionnaire, section), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:text-red-900 text-sm font-medium" %>
+                  </div>
+                </div>
+
+                <% if section.questions.any? %>
+                  <div class="mt-4 border-t border-gray-200 pt-4">
+                    <ul class="space-y-2">
+                      <% section.questions.ordered.limit(3).each do |question| %>
+                        <li class="text-sm text-gray-700">
+                          <span class="text-gray-500"><%= question.order_index + 1 %>.</span>
+                          <%= question.question_text %>
+                          <% if question.is_required %>
+                            <span class="text-red-500">*</span>
+                          <% end %>
+                        </li>
+                      <% end %>
+                      <% if section.questions.count > 3 %>
+                        <li class="text-sm text-gray-500">
+                          <%= link_to "+ #{section.questions.count - 3} more questions", gdpr_questionnaire_section_questions_path(@questionnaire, section), class: "text-indigo-600 hover:text-indigo-900" %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No sections</h3>
+            <p class="mt-1 text-sm text-gray-500">Get started by creating a section.</p>
+            <div class="mt-6">
+              <%= link_to "Add Section", new_gdpr_questionnaire_section_path(@questionnaire), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,41 +1,10 @@
 module Gdpr
   class SectionsController < BaseController
     before_action :set_questionnaire
-    before_action :set_section, only: [:show, :edit, :update, :destroy, :move]
-
-    def index
-      @sections = @questionnaire.sections.ordered.includes(:questions)
-
-      render inertia: "Gdpr/Sections/Index", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        sections: @sections.as_json(
-          include: {
-            questions: { only: [:id, :question_text, :question_type, :is_required] }
-          }
-        )
-      }
-    end
-
-    def show
-      render inertia: "Gdpr/Sections/Show", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section.as_json(
-          include: {
-            questions: {
-              include: :answer_choices
-            }
-          }
-        )
-      }
-    end
+    before_action :set_section, only: [:edit, :update, :destroy, :move]
 
     def new
       @section = @questionnaire.sections.new
-
-      render inertia: "Gdpr/Sections/New", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section
-      }
     end
 
     def create
@@ -45,16 +14,11 @@ module Gdpr
         redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Section created successfully"
       else
-        redirect_to new_gdpr_questionnaire_section_path(@questionnaire),
-                    inertia: { errors: @section.errors }
+        render :new, status: :unprocessable_entity
       end
     end
 
     def edit
-      render inertia: "Gdpr/Sections/Edit", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section
-      }
     end
 
     def update
@@ -62,8 +26,7 @@ module Gdpr
         redirect_to gdpr_questionnaire_path(@questionnaire),
                     notice: "Section updated successfully"
       else
-        redirect_to edit_gdpr_questionnaire_section_path(@questionnaire, @section),
-                    inertia: { errors: @section.errors }
+        render :edit, status: :unprocessable_entity
       end
     end
 

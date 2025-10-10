@@ -2,35 +2,14 @@ module Gdpr
   class QuestionsController < BaseController
     before_action :set_questionnaire
     before_action :set_section
-    before_action :set_question, only: [:show, :edit, :update, :destroy]
+    before_action :set_question, only: [:edit, :update, :destroy]
 
     def index
       @questions = @section.questions.ordered.includes(:answer_choices)
-
-      render inertia: "Gdpr/Questions/Index", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section.as_json(only: [:id, :title]),
-        questions: @questions.as_json(include: :answer_choices)
-      }
-    end
-
-    def show
-      render inertia: "Gdpr/Questions/Show", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section.as_json(only: [:id, :title]),
-        question: @question.as_json(include: :answer_choices)
-      }
     end
 
     def new
       @question = @section.questions.new
-
-      render inertia: "Gdpr/Questions/New", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section.as_json(only: [:id, :title]),
-        question: @question,
-        questionTypes: question_types_options
-      }
     end
 
     def create
@@ -45,18 +24,11 @@ module Gdpr
         redirect_to gdpr_questionnaire_section_questions_path(@questionnaire, @section),
                     notice: "Question created successfully"
       else
-        redirect_to new_gdpr_questionnaire_section_question_path(@questionnaire, @section),
-                    inertia: { errors: @question.errors }
+        render :new, status: :unprocessable_entity
       end
     end
 
     def edit
-      render inertia: "Gdpr/Questions/Edit", props: {
-        questionnaire: @questionnaire.as_json(only: [:id, :title]),
-        section: @section.as_json(only: [:id, :title]),
-        question: @question.as_json(include: :answer_choices),
-        questionTypes: question_types_options
-      }
     end
 
     def update
@@ -69,8 +41,7 @@ module Gdpr
         redirect_to gdpr_questionnaire_section_questions_path(@questionnaire, @section),
                     notice: "Question updated successfully"
       else
-        redirect_to edit_gdpr_questionnaire_section_question_path(@questionnaire, @section, @question),
-                    inertia: { errors: @question.errors }
+        render :edit, status: :unprocessable_entity
       end
     end
 
