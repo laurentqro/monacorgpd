@@ -16,11 +16,6 @@ module Gdpr
       @question = @section.questions.new(question_params)
 
       if @question.save
-        # Create answer choices if provided
-        if params[:answer_choices].present?
-          create_answer_choices(@question, params[:answer_choices])
-        end
-
         redirect_to gdpr_questionnaire_section_questions_path(@questionnaire, @section),
                     notice: "Question created successfully"
       else
@@ -33,11 +28,6 @@ module Gdpr
 
     def update
       if @question.update(question_params)
-        # Update answer choices if provided
-        if params[:answer_choices].present?
-          update_answer_choices(@question, params[:answer_choices])
-        end
-
         redirect_to gdpr_questionnaire_section_questions_path(@questionnaire, @section),
                     notice: "Question updated successfully"
       else
@@ -74,51 +64,9 @@ module Gdpr
         :order_index,
         :is_required,
         :weight,
-        settings: {}
+        settings: {},
+        answer_choices_attributes: [:id, :choice_text, :score, :order_index, :_destroy]
       )
-    end
-
-    def create_answer_choices(question, choices_data)
-      choices_data.each_with_index do |choice_data, index|
-        question.answer_choices.create(
-          choice_text: choice_data[:text],
-          score: choice_data[:score],
-          order_index: index
-        )
-      end
-    end
-
-    def update_answer_choices(question, choices_data)
-      # Simple approach: delete all and recreate
-      question.answer_choices.destroy_all
-      create_answer_choices(question, choices_data)
-    end
-
-    def question_types_options
-      Gdpr::Question.question_types.map do |key, value|
-        {
-          value: key,
-          label: key.to_s.titleize,
-          description: question_type_description(key)
-        }
-      end
-    end
-
-    def question_type_description(type)
-      case type.to_sym
-      when :single_choice
-        "User selects one option from a list"
-      when :multiple_choice
-        "User can select multiple options"
-      when :text_short
-        "Short text input (single line)"
-      when :text_long
-        "Long text input (multiple lines)"
-      when :yes_no
-        "Simple yes/no question"
-      when :rating_scale
-        "Numeric rating (e.g., 1-5 scale)"
-      end
     end
   end
 end

@@ -16,7 +16,10 @@ module Gdpr
     has_many :answer_choices, dependent: :destroy
     has_many :logic_rules, foreign_key: :source_question_id, dependent: :destroy
     has_many :answers, dependent: :destroy
-  
+
+    # Nested attributes
+    accepts_nested_attributes_for :answer_choices, allow_destroy: true, reject_if: :all_blank
+
     # Validations
     validates :question_text, presence: true
     validates :question_type, presence: true

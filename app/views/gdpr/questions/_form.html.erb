@@ -2,6 +2,7 @@
               url: question.persisted? ? gdpr_questionnaire_section_question_path(questionnaire, section, question) : gdpr_questionnaire_section_questions_path(questionnaire, section),
               scope: :question,
               local: true,
+              data: { controller: "question-type" },
               class: "space-y-6" do |f| %>
   <% if question.errors.any? %>
     <div class="rounded-md bg-red-50 p-4">
@@ -30,7 +31,8 @@
     <%= f.select :question_type,
         options_for_select(Gdpr::Question.question_types.keys.map { |t| [t.humanize, t] }, question.question_type),
         {},
-        class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" %>
+        class: "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md",
+        data: { question_type_target: "questionType", action: "change->question-type#toggleAnswerChoices" } %>
     <p class="mt-2 text-sm text-gray-500">
       Select the type of response for this question
     </p>
@@ -58,21 +60,44 @@
     </div>
   </div>
 
+  <%# Answer Choices Section - shown for question types that require them %>
+  <div data-controller="answer-choices" data-answer-choices-index-value="<%= question.answer_choices.size %>"
+       id="answer-choices-section"
+       style="<%= 'display: none;' unless question.requires_choices? %>"
+       data-question-type-target="answerChoices">
+    <div class="border-t border-gray-200 pt-4">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg font-medium text-gray-900">Answer Choices</h3>
+          <p class="mt-1 text-sm text-gray-500">Define the available options for this question</p>
+        </div>
+        <button type="button"
+                data-action="answer-choices#add"
+                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
+          <svg class="-ml-0.5 mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Add Choice
+        </button>
+      </div>
+
+      <div data-answer-choices-target="container" class="space-y-3">
+        <%= f.fields_for :answer_choices, question.answer_choices do |choice_form| %>
+          <%= render "gdpr/questions/answer_choice_fields", f: choice_form, index: choice_form.index %>
+        <% end %>
+      </div>
+
+      <%# Template for new answer choices %>
+      <template data-answer-choices-target="template">
+        <%= f.fields_for :answer_choices, Gdpr::AnswerChoice.new, child_index: "NEW_RECORD" do |choice_form| %>
+          <%= render "gdpr/questions/answer_choice_fields", f: choice_form, index: "NEW_RECORD" %>
+        <% end %>
+      </template>
+    </div>
+  </div>
+
   <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
     <%= link_to "Cancel", gdpr_questionnaire_section_questions_path(questionnaire, section), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
     <%= f.submit question.persisted? ? "Update Question" : "Create Question", class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
-  </div>
-<% end %>
-
-<%# Note: Answer choices management will be added in a future update %>
-<% if question.persisted? && question.requires_choices? %>
-  <div class="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4">
-    <div class="flex">
-      <div class="ml-3">
-        <p class="text-sm text-yellow-700">
-          <strong>Note:</strong> This question type requires answer choices. Answer choice management will be available in a future update. For now, you can manage them via Rails console.
-        </p>
-      </div>
-    </div>
   </div>
 <% end %>
