@@ -1,0 +1,81 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="flex items-center">
+          <%= link_to gdpr_responses_path, class: "text-gray-400 hover:text-gray-500 mr-4" do %>
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+          <h1 class="text-3xl font-bold text-gray-900"><%= @response.questionnaire.title %></h1>
+        </div>
+        <p class="mt-2 text-sm text-gray-600">
+          Assessment <%= @response.status.titleize %>
+          <% if @response.completed_at %>
+            <span class="text-gray-400">•</span>
+            Completed <%= time_ago_in_words(@response.completed_at) %> ago
+          <% end %>
+        </p>
+      </div>
+      <% if @response.completed? && @response.audit_session %>
+        <%= link_to "View Results", gdpr_audit_session_path(@response.audit_session), class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @response.notes.present? %>
+    <div class="mb-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+      <h3 class="text-sm font-medium text-gray-900 mb-2">Assessment Notes</h3>
+      <p class="text-sm text-gray-700"><%= @response.notes %></p>
+    </div>
+  <% end %>
+
+  <div class="space-y-8">
+    <% @sections.each_with_index do |section, section_index| %>
+      <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+          <div class="mb-6">
+            <h2 class="text-xl font-semibold text-gray-900">
+              <%= section_index + 1 %>. <%= section.title %>
+            </h2>
+            <% if section.description.present? %>
+              <p class="mt-2 text-sm text-gray-600"><%= section.description %></p>
+            <% end %>
+          </div>
+
+          <div class="space-y-6">
+            <% section.questions.ordered.each_with_index do |question, question_index| %>
+              <div class="border-t border-gray-200 pt-6 first:border-0 first:pt-0">
+                <div class="flex items-start">
+                  <span class="flex-shrink-0 text-sm font-medium text-gray-500 mr-3">
+                    <%= section_index + 1 %>.<%= question_index + 1 %>
+                  </span>
+                  <div class="flex-1">
+                    <p class="text-sm font-medium text-gray-900">
+                      <%= question.question_text %>
+                      <% if question.is_required %>
+                        <span class="text-red-500">*</span>
+                      <% end %>
+                    </p>
+
+                    <div class="mt-2">
+                      <% answer = @answers[question.id] %>
+                      <% if answer %>
+                        <div class="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+                          <%= render "gdpr/responses/answer_display", question: question, answer: answer %>
+                        </div>
+                      <% else %>
+                        <p class="text-sm text-gray-500 italic">No answer provided</p>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

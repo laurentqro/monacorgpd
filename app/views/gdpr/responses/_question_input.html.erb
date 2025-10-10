@@ -1,0 +1,92 @@
+<%
+  answer_value = answer&.answer_value || {}
+  field_name = "answers[#{question.id}]"
+%>
+
+<% case question.question_type.to_sym %>
+<% when :single_choice %>
+  <div class="space-y-2">
+    <% question.answer_choices.ordered.each do |choice| %>
+      <label class="flex items-center p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+        <input type="radio"
+               name="<%= field_name %>[choice_id]"
+               value="<%= choice.id %>"
+               <%= 'checked' if answer_value["choice_id"] == choice.id %>
+               class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+               data-action="change->question-answer#save">
+        <span class="ml-3 text-sm text-gray-900"><%= choice.choice_text %></span>
+      </label>
+    <% end %>
+  </div>
+
+<% when :multiple_choice %>
+  <div class="space-y-2">
+    <% question.answer_choices.ordered.each do |choice| %>
+      <label class="flex items-center p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+        <input type="checkbox"
+               name="<%= field_name %>[choice_ids][]"
+               value="<%= choice.id %>"
+               <%= 'checked' if Array(answer_value["choice_ids"]).include?(choice.id) %>
+               class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+               data-action="change->question-answer#save">
+        <span class="ml-3 text-sm text-gray-900"><%= choice.choice_text %></span>
+      </label>
+    <% end %>
+  </div>
+
+<% when :yes_no %>
+  <div class="space-y-2">
+    <label class="flex items-center p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+      <input type="radio"
+             name="<%= field_name %>[value]"
+             value="yes"
+             <%= 'checked' if answer_value["value"] == "yes" %>
+             class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+             data-action="change->question-answer#save">
+      <span class="ml-3 text-sm text-gray-900">Yes</span>
+    </label>
+    <label class="flex items-center p-3 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">
+      <input type="radio"
+             name="<%= field_name %>[value]"
+             value="no"
+             <%= 'checked' if answer_value["value"] == "no" %>
+             class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+             data-action="change->question-answer#save">
+      <span class="ml-3 text-sm text-gray-900">No</span>
+    </label>
+  </div>
+
+<% when :text_short %>
+  <input type="text"
+         name="<%= field_name %>[text]"
+         value="<%= answer_value["text"] %>"
+         class="mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+         placeholder="Enter your answer..."
+         data-action="blur->question-answer#save">
+
+<% when :text_long %>
+  <textarea name="<%= field_name %>[text]"
+            rows="4"
+            class="mt-1 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            placeholder="Enter your answer..."
+            data-action="blur->question-answer#save"><%= answer_value["text"] %></textarea>
+
+<% when :rating_scale %>
+  <div class="flex items-center space-x-2">
+    <% (1..5).each do |rating| %>
+      <label class="flex items-center justify-center w-12 h-12 border-2 border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer <%= 'bg-indigo-50 border-indigo-500' if answer_value["rating"]&.to_i == rating %>">
+        <input type="radio"
+               name="<%= field_name %>[rating]"
+               value="<%= rating %>"
+               <%= 'checked' if answer_value["rating"]&.to_i == rating %>
+               class="sr-only"
+               data-action="change->question-answer#save">
+        <span class="text-sm font-medium text-gray-700"><%= rating %></span>
+      </label>
+    <% end %>
+  </div>
+  <p class="mt-2 text-xs text-gray-500">1 = Lowest, 5 = Highest</p>
+<% end %>
+
+<input type="hidden" name="<%= field_name %>[question_id]" value="<%= question.id %>">
+<input type="hidden" name="<%= field_name %>[response_id]" value="<%= response.id %>">

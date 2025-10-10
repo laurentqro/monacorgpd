@@ -1,0 +1,156 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="flex items-center">
+          <%= link_to gdpr_audit_sessions_path, class: "text-gray-400 hover:text-gray-500 mr-4" do %>
+            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+          <% end %>
+          <h1 class="text-3xl font-bold text-gray-900">Compliance Assessment Results</h1>
+        </div>
+        <p class="mt-2 text-sm text-gray-600"><%= @questionnaire.title %></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overall Score Card -->
+  <div class="mb-8 bg-white shadow rounded-lg overflow-hidden">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div class="text-center">
+          <dt class="text-sm font-medium text-gray-500 truncate">Overall Score</dt>
+          <dd class="mt-1 text-5xl font-extrabold text-gray-900">
+            <%= @audit_session.percentage_score.round %>%
+          </dd>
+        </div>
+        <div class="text-center">
+          <dt class="text-sm font-medium text-gray-500 truncate">Risk Level</dt>
+          <dd class="mt-1">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-lg font-medium <%= case @audit_session.risk_level; when 'low' then 'bg-green-100 text-green-800'; when 'medium' then 'bg-yellow-100 text-yellow-800'; when 'high' then 'bg-red-100 text-red-800'; else 'bg-gray-100 text-gray-800'; end %>">
+              <%= @audit_session.risk_level&.titleize || "Unknown" %>
+            </span>
+          </dd>
+        </div>
+        <div class="text-center">
+          <dt class="text-sm font-medium text-gray-500 truncate">Status</dt>
+          <dd class="mt-1">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-lg font-medium <%= @audit_session.completed? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+              <%= @audit_session.status.titleize %>
+            </span>
+          </dd>
+        </div>
+      </div>
+
+      <div class="mt-6 border-t border-gray-200 pt-6">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Your Score</dt>
+            <dd class="mt-1 text-2xl font-semibold text-gray-900">
+              <%= @audit_session.overall_score&.round(2) || 0 %> / <%= @audit_session.max_possible_score&.round(2) || 0 %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Completed</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= @response.completed_at ? time_ago_in_words(@response.completed_at) + " ago" : "Not completed" %>
+            </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Level Explanation -->
+  <div class="mb-8 <%= case @audit_session.risk_level; when 'low' then 'bg-green-50 border-green-400'; when 'medium' then 'bg-yellow-50 border-yellow-400'; when 'high' then 'bg-red-50 border-red-400'; else 'bg-gray-50 border-gray-400'; end %> border-l-4 p-4">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 <%= case @audit_session.risk_level; when 'low' then 'text-green-400'; when 'medium' then 'text-yellow-400'; when 'high' then 'text-red-400'; else 'text-gray-400'; end %>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium <%= case @audit_session.risk_level; when 'low' then 'text-green-800'; when 'medium' then 'text-yellow-800'; when 'high' then 'text-red-800'; else 'text-gray-800'; end %>">
+          <%= case @audit_session.risk_level
+              when 'low'
+                'Low Risk - Good Compliance'
+              when 'medium'
+                'Medium Risk - Improvement Needed'
+              when 'high'
+                'High Risk - Immediate Action Required'
+              else
+                'Risk Assessment Unavailable'
+              end %>
+        </h3>
+        <div class="mt-2 text-sm <%= case @audit_session.risk_level; when 'low' then 'text-green-700'; when 'medium' then 'text-yellow-700'; when 'high' then 'text-red-700'; else 'text-gray-700'; end %>">
+          <p>
+            <%= case @audit_session.risk_level
+                when 'low'
+                  "Your organization demonstrates strong data protection practices. Continue monitoring and maintaining these standards."
+                when 'medium'
+                  "Your organization shows moderate compliance. Review the areas marked below and implement recommended improvements."
+                when 'high'
+                  "Your organization has significant compliance gaps. Priority action is required to address the issues identified below."
+                else
+                  "Unable to determine risk level. Please review the assessment data."
+                end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Responses -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Detailed Assessment</h2>
+
+    <div class="space-y-6">
+      <% @sections.each_with_index do |section, section_index| %>
+        <div class="bg-white shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+              <%= section_index + 1 %>. <%= section.title %>
+            </h3>
+
+            <div class="space-y-4">
+              <% section.questions.ordered.each_with_index do |question, question_index| %>
+                <div class="border-t border-gray-200 pt-4 first:border-0 first:pt-0">
+                  <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                      <p class="text-sm font-medium text-gray-900">
+                        <%= section_index + 1 %>.<%= question_index + 1 %> <%= question.question_text %>
+                      </p>
+
+                      <div class="mt-2 text-sm text-gray-700">
+                        <% answer = @answers[question.id] %>
+                        <% if answer %>
+                          <%= render "gdpr/responses/answer_display", question: question, answer: answer %>
+                        <% else %>
+                          <span class="text-gray-500 italic">No answer provided</span>
+                        <% end %>
+                      </div>
+                    </div>
+
+                    <% if answer && answer.calculated_score %>
+                      <div class="ml-4 flex-shrink-0">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                          Score: <%= answer.calculated_score.round(2) %>
+                        </span>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex justify-between">
+    <%= link_to "View Response", gdpr_response_path(@response), class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+    <%= link_to "Back to Audit Sessions", gdpr_audit_sessions_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="sm:flex sm:items-center sm:justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Audit Sessions</h1>
+      <p class="mt-2 text-sm text-gray-700">View your compliance assessment results and audit history</p>
+    </div>
+    <div class="mt-4 sm:mt-0">
+      <%= link_to gdpr_responses_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
+        View Assessments
+      <% end %>
+    </div>
+  </div>
+
+  <% if @audit_sessions.any? %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @audit_sessions.each do |audit_session| %>
+          <li>
+            <%= link_to gdpr_audit_session_path(audit_session), class: "block hover:bg-gray-50" do %>
+              <div class="px-4 py-4 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-lg font-medium text-indigo-600 truncate">
+                      <%= audit_session.response.questionnaire.title %>
+                    </p>
+                    <div class="mt-2 flex items-center space-x-4">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= case audit_session.risk_level; when 'low' then 'bg-green-100 text-green-800'; when 'medium' then 'bg-yellow-100 text-yellow-800'; when 'high' then 'bg-red-100 text-red-800'; else 'bg-gray-100 text-gray-800'; end %>">
+                        Risk: <%= audit_session.risk_level&.titleize || "Unknown" %>
+                      </span>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= audit_session.completed? ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                        <%= audit_session.status.titleize %>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="ml-5 flex-shrink-0 text-right">
+                    <div class="text-3xl font-bold text-gray-900">
+                      <%= audit_session.percentage_score.round %>%
+                    </div>
+                    <div class="text-xs text-gray-500">
+                      <%= audit_session.overall_score&.round(2) || 0 %> / <%= audit_session.max_possible_score&.round(2) || 0 %>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <div class="flex items-center text-sm text-gray-500">
+                    <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                    </svg>
+                    Completed <%= time_ago_in_words(audit_session.created_at) %> ago
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <% if @pagy.count > @pagy.limit %>
+      <div class="mt-4">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No audit sessions</h3>
+      <p class="mt-1 text-sm text-gray-500">Complete an assessment to generate an audit session.</p>
+      <div class="mt-6">
+        <%= link_to "View Assessments", gdpr_responses_path, class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>

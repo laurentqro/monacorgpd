@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       member do
         post :submit
       end
+
+      # Nested: Answers within responses
+      resources :answers, only: [:create, :update, :destroy]
     end
 
     # Audit Sessions - View results
