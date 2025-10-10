@@ -3,11 +3,12 @@ module Gdpr
     before_action :set_questionnaire, only: [:show, :edit, :update, :destroy, :publish, :archive, :restore]
 
     def index
-      @questionnaires = scoped_questionnaires
+      questionnaires_scope = scoped_questionnaires
         .active
         .includes(:creator, :sections)
         .order(created_at: :desc)
-        .page(params[:page])
+
+      @pagy, @questionnaires = pagy(questionnaires_scope)
     end
 
     def show
